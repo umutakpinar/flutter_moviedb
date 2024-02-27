@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_moviedb/common/app/theme/app_theme.dart';
-import 'package:flutter_moviedb/features/home/core/bottomNavItems.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -189,13 +188,6 @@ class HomeScreen extends StatelessWidget {
             ),
           )),
         ),
-      ),
-      //Burada BottomNavigationBar widgeti kullanmalıymışsın!
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.blue,
-        currentIndex: 0,
-        items: bottomNavBarItems,
-        onTap: (value) => null,
       ),
     );
   }
