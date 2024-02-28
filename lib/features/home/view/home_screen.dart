@@ -68,8 +68,10 @@ class HomeScreen extends StatelessWidget {
                                       Radius.circular(20)),
                                   color: Colors.black,
                                   image: DecorationImage(
-                                    image: NetworkImage( itemCount != 5 ?
-                                      "http://image.tmdb.org/t/p/w500/${trends[index].posterPath}" : "https://i.ytimg.com/vi/rumF8zJUFYI/sddefault.jpg?sqp=-oaymwEmCIAFEOAD8quKqQMa8AEB-AHeA4AC4AOKAgwIABABGGUgZShlMA8=&rs=AOn4CLBetpZfRpGjZ-Z0To7ykofzqT43XQ",
+                                    image: NetworkImage(
+                                      itemCount != 5
+                                          ? "http://image.tmdb.org/t/p/w500/${trends[index].posterPath}"
+                                          : "https://i.ytimg.com/vi/rumF8zJUFYI/sddefault.jpg?sqp=-oaymwEmCIAFEOAD8quKqQMa8AEB-AHeA4AC4AOKAgwIABABGGUgZShlMA8=&rs=AOn4CLBetpZfRpGjZ-Z0To7ykofzqT43XQ",
                                     ),
                                     fit: BoxFit.fill,
                                   ),
@@ -172,33 +174,27 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                         )),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 24, left: 12, right: 12),
-                      child: SizedBox(
-                        height: 450,
-                        child: GridView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: 12,
-                          shrinkWrap: false,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: 16 / 25,
-                                  crossAxisCount: 3,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 20),
-                          itemBuilder: (context, index) => Container(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                  top: BorderSide(
-                                      color: Colors.black,
-                                      style: BorderStyle.solid)),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                              color: Colors.orange,
-                            ),
-                            child: const Center(child: Text("Movie")),
-                          ),
+                    GridView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: 12,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: 16 / 25,
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 20),
+                      itemBuilder: (context, index) => Container(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                              top: BorderSide(
+                                  color: Colors.black,
+                                  style: BorderStyle.solid)),
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          color: Colors.orange,
                         ),
+                        child: const Center(child: Text("Movie")),
                       ),
                     ),
                   ],
