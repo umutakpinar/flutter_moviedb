@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_moviedb/common/app/theme/app_theme.dart';
+import 'package:flutter_moviedb/data/bloc/trending_movies_bloc.dart';
+import 'package:flutter_moviedb/data/model/trending_movies_weekly.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -36,60 +39,77 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10, bottom: 24),
                   child: SizedBox(
                     height: 250,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      children: [
-                        const Padding(padding: EdgeInsets.only(right: 24)),
-                        Container(
-                          decoration: const BoxDecoration(
-                            border: Border(
-                                top: BorderSide(
-                                    color: Colors.black,
-                                    style: BorderStyle.solid)),
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            color: Colors.red,
+                    width: viewportConstraints.maxWidth,
+                    child: BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
+                      builder: (context, state) {
+                        late final TrendingMoviesWeekly response;
+                        late final List<Result> trends;
+                        int itemCount = 5;
+                        if (state is TrendingMoviesSuccessState) {
+                          response = state.results;
+                          trends = response.results;
+                          itemCount = 10;
+                        } else {}
+
+                        return ListView.builder(
+                          padding: const EdgeInsets.only(
+                            left: 12,
                           ),
-                          width: 160,
-                        ),
-                        const Padding(padding: EdgeInsets.only(right: 24)),
-                        Container(
-                          decoration: const BoxDecoration(
-                            border: Border(
-                                top: BorderSide(
-                                    color: Colors.black,
-                                    style: BorderStyle.solid)),
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            color: Colors.blue,
+                          itemBuilder: (context, index) => Row(
+                            children: [
+                              Container(
+                                width: 160,
+                                decoration: BoxDecoration(
+                                  border: const Border(
+                                      top: BorderSide(
+                                          color: Colors.black,
+                                          style: BorderStyle.solid)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20)),
+                                  color: Colors.black,
+                                  image: DecorationImage(
+                                    image: NetworkImage( itemCount != 5 ?
+                                      "http://image.tmdb.org/t/p/w500/${trends[index].posterPath}" : "https://i.ytimg.com/vi/rumF8zJUFYI/sddefault.jpg?sqp=-oaymwEmCIAFEOAD8quKqQMa8AEB-AHeA4AC4AOKAgwIABABGGUgZShlMA8=&rs=AOn4CLBetpZfRpGjZ-Z0To7ykofzqT43XQ",
+                                    ),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Center(
+                                      child: itemCount != 5
+                                          ? Text(
+                                              trends[index].originalTitle,
+                                              textAlign: TextAlign.center,
+                                            )
+                                          : const CircularProgressIndicator(),
+                                    ),
+                                    Positioned(
+                                      bottom: -10,
+                                      left: 5,
+                                      child: Text((index + 1).toString(),
+                                          style: const TextStyle(
+                                              fontSize: 75,
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold,
+                                              shadows: [
+                                                Shadow(
+                                                    color: Colors.black,
+                                                    offset: Offset(5, 5),
+                                                    blurRadius: 5),
+                                              ])),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Padding(
+                                  padding: EdgeInsets.only(right: 12)),
+                            ],
                           ),
-                          width: 160,
-                        ),
-                        const Padding(padding: EdgeInsets.only(right: 24)),
-                        Container(
-                          decoration: const BoxDecoration(
-                            border: Border(
-                                top: BorderSide(
-                                    color: Colors.black,
-                                    style: BorderStyle.solid)),
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            color: Colors.green,
-                          ),
-                          width: 160,
-                        ),
-                        const Padding(padding: EdgeInsets.only(right: 24)),
-                        Container(
-                          decoration: const BoxDecoration(
-                            border: Border(
-                                top: BorderSide(
-                                    color: Colors.black,
-                                    style: BorderStyle.solid)),
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            color: Colors.orange,
-                          ),
-                          width: 160,
-                        ),
-                        const Padding(padding: EdgeInsets.only(right: 24)),
-                      ],
+                          itemCount: itemCount,
+                          scrollDirection: Axis.horizontal,
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -153,19 +173,19 @@ class HomeScreen extends StatelessWidget {
                           ),
                         )),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 24),
-                      child: Container(
-                        height: 600,
+                      padding: const EdgeInsets.only(bottom: 24, left: 12, right: 12),
+                      child: SizedBox(
+                        height: 450,
                         child: GridView.builder(
-                          scrollDirection: Axis.horizontal,
+                          scrollDirection: Axis.vertical,
                           itemCount: 12,
                           shrinkWrap: false,
                           gridDelegate:
-                             const SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: 25/16,
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 20,
-                                  mainAxisSpacing: 10),
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 16 / 25,
+                                  crossAxisCount: 3,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 20),
                           itemBuilder: (context, index) => Container(
                             decoration: const BoxDecoration(
                               border: Border(
@@ -176,7 +196,7 @@ class HomeScreen extends StatelessWidget {
                                   BorderRadius.all(Radius.circular(20)),
                               color: Colors.orange,
                             ),
-                            child: const Center(child :  Text("Movie")),
+                            child: const Center(child: Text("Movie")),
                           ),
                         ),
                       ),
@@ -184,6 +204,12 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
                 //Categorical Preview End
+                // ------- TEST ------
+                // BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
+                //   builder: (context, state) {
+                //     return Text(state.toString());
+                //   },
+                // ),
               ],
             ),
           )),

@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_moviedb/common/app/core/bottomNavItems.dart';
 import 'package:flutter_moviedb/common/app/cubit/nav_index_cubit.dart';
 import 'package:flutter_moviedb/common/app/router/routes/routes.dart';
+import 'package:flutter_moviedb/data/bloc/trending_movies_bloc.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -15,6 +15,7 @@ class App extends StatelessWidget {
         BlocProvider(
           create: (context) => NavIndexCubit(),
         ),
+        BlocProvider(create: (context) => TrendingMoviesBloc()..add(FetchTrendingMoviesEvent()),) //Ekran yuklenir yuklenmez initialEventten ciksin diye 
       ],
       child: const AppView(),
     );
