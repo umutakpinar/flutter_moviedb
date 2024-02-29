@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_moviedb/common/app/theme/app_theme.dart';
 import 'package:flutter_moviedb/data/bloc/trending_movies_bloc.dart';
+import 'package:flutter_moviedb/data/model/movie.dart';
 import 'package:flutter_moviedb/data/model/trending_movies_weekly.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -43,12 +44,12 @@ class HomeScreen extends StatelessWidget {
                     child: BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
                       builder: (context, state) {
                         late final TrendingMoviesWeekly response;
-                        late final List<Result> trends;
+                        late final List<Movie> trends;
                         int itemCount = 5;
                         if (state is TrendingMoviesSuccessState) {
                           response = state.results;
                           trends = response.results;
-                          itemCount = 10;
+                          itemCount = response.results.length;
                         } else {}
 
                         return ListView.builder(
@@ -80,9 +81,21 @@ class HomeScreen extends StatelessWidget {
                                   children: [
                                     Center(
                                       child: itemCount != 5
-                                          ? Text(
-                                              trends[index].originalTitle,
-                                              textAlign: TextAlign.center,
+                                          ? Opacity(
+                                              opacity: 0.5,
+                                              child: Text(
+                                                trends[index].originalTitle,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    backgroundColor: Colors.red,
+                                                    color: Colors.black,
+                                                    shadows: [
+                                                      Shadow(
+                                                          color: Colors.black,
+                                                          offset: Offset(2, 2),
+                                                          blurRadius: 7)
+                                                    ]),
+                                              ),
                                             )
                                           : const CircularProgressIndicator(),
                                     ),
@@ -176,6 +189,7 @@ class HomeScreen extends StatelessWidget {
                         )),
                     GridView.builder(
                       scrollDirection: Axis.vertical,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       itemCount: 12,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),

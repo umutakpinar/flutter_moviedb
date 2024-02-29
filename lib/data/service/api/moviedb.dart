@@ -20,8 +20,25 @@ class MovieDBAPI {
     return await _api.get(top_movies_this_week_extension_url);
   }
 
-  /* TO DO : Extension Url Editlenmeli gelen isteğe göre */
-  // Future<Response<dynamic>> searchMovies() async {
-  //   return await _api.get(extensionUrl);
+  Future<Response> getPopularMovies() async {
+    return await _api.get(top_movies_this_week_extension_url);
+  }
+
+  Future<Response> getNowPlayinMovies() async {
+    return await _api.get(top_movies_this_week_extension_url);
+  }
+
+  Future<Response> getTopRatedMovies() async {
+    return await _api.get(top_movies_this_week_extension_url);
+  }
+
+  Future<Response> getUpcomingMovies() async {
+    return await _api.get(top_movies_this_week_extension_url);
+  }
+
+  //TO DO : Search işlemi yapacaksın burada sürekli istek atmak yerine girdi alma işlemi bittikten sonra get isteği at.
+  //Aslında bu durumu da bir bloc veya cubit yapısıyla kontrol etmek daha doğru sanırım. WritingState, DoneState gibi done olunca request atarsın. Writing ise loading indicator gösterirsin. 
+  // Future<Response> searchMovie({required String word}) async {
+  //   return await _api.get();
   // }
 }

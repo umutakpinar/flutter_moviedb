@@ -1,25 +1,29 @@
+// To parse this JSON data, do
+//
+//     final topRatedMovies = topRatedMoviesFromJson(jsonString);
+
 import 'dart:convert';
 
 import 'package:flutter_moviedb/data/model/movie.dart';
 
-TrendingMoviesWeekly trendingMoviesWeeklyFromJson(String str) => TrendingMoviesWeekly.fromJson(json.decode(str));
+TopRatedMovies topRatedMoviesFromJson(String str) => TopRatedMovies.fromJson(json.decode(str));
 
-String trendingMoviesWeeklyToJson(TrendingMoviesWeekly data) => json.encode(data.toJson());
+String topRatedMoviesToJson(TopRatedMovies data) => json.encode(data.toJson());
 
-class TrendingMoviesWeekly {
+class TopRatedMovies {
     int page;
     List<Movie> results;
     int totalPages;
     int totalResults;
 
-    TrendingMoviesWeekly({
+    TopRatedMovies({
         required this.page,
         required this.results,
         required this.totalPages,
         required this.totalResults,
     });
 
-    factory TrendingMoviesWeekly.fromJson(Map<String, dynamic> json) => TrendingMoviesWeekly(
+    factory TopRatedMovies.fromJson(Map<String, dynamic> json) => TopRatedMovies(
         page: json["page"],
         results: List<Movie>.from(json["results"].map((x) => Movie.fromJson(x))),
         totalPages: json["total_pages"],
